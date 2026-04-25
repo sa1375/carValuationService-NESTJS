@@ -1,0 +1,10 @@
+// src/users/requests.http
+
+### create a new user
+POST http://localhost:3000/auth/signup
+Content-Type: application/json 
+
+{
+    "email": "kjbnfdbdb@email.com",
+    "password": "passwordfortest"
+}

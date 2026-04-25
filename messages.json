@@ -1,0 +1,10 @@
+{
+  "8216": {
+    "id": "8216",
+    "content": "Hello, this is a new message!"
+  },
+  "id": {
+    "content": "some string",
+    "id": "some id"
+  }
+}

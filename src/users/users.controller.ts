@@ -10,21 +10,47 @@ import {
   Patch,
   Post,
   Query,
+  Session,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { updateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
+import { AuthService } from './auth.service';
 
 @Controller('auth') // pre route path of auth for all routes
 @serialize(UserDto)
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private authService: AuthService,
+  ) {}
+
+  @Get('/whoami')
+  whoAmI(@Session() session: any) {
+    console.log(session.userId);
+    return this.usersService.findOne(session.userId);
+  }
+
+  @Post('/signout')
+  signout(@Session() session: any) {
+    session.userID = null;
+  }
 
   @Post('/signup')
-  async createUser(@Body() body: CreateUserDto) {
-    await this.usersService.create(body.email, body.password);
+  async createUser(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signup(body.email, body.password);
+    session.userId = user.id;
+    return user;
+  }
+
+  @Post('/signin')
+  async signin(@Body() body: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signin(body.email, body.password);
+    session.userId = user.id;
+    console.log(session.userId);
+    return user;
   }
 
   @Get('/:id')

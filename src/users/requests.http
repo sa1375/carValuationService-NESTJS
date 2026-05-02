@@ -5,9 +5,21 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json 
 
 {
-    "email": "kjbnfdbdb@email.com",
+    "email": "unique1-email@email.com",
     "password": "passwordfortest"
 }
+
+### signin a  user
+POST http://localhost:3000/auth/signin
+Content-Type: application/json 
+
+{
+    "email": "unique1-email@email.com",
+    "password": "passwordfortest"
+}
+
+### get the signed in user 
+GET http://localhost:3000/auth/whoami
 
 
 ### test finding one user controller by id 
@@ -27,3 +39,4 @@ Content-Type: application/json
 {
     "email": "newEmail@g.com"
 }
+

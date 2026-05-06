@@ -2,7 +2,7 @@
 
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { User } from './user.entitiy';
+import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -17,6 +17,7 @@ export class UsersService {
   }
 
   findOne(id: number) {
+    if (!id) return null;
     return this.repo.findOneBy({ id });
   }
   find(email: string) {

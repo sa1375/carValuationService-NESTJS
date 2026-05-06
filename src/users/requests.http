@@ -21,6 +21,9 @@ Content-Type: application/json
 ### get the signed in user 
 GET http://localhost:3000/auth/whoami
 
+###  signing out 
+POST http://localhost:3000/auth/signout
+
 
 ### test finding one user controller by id 
 GET http://localhost:3000/auth/3

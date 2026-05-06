@@ -18,6 +18,8 @@ import { UsersService } from './users.service';
 import { serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { User } from './user.entity';
 
 @Controller('auth') // pre route path of auth for all routes
 @serialize(UserDto)
@@ -28,14 +30,14 @@ export class UsersController {
   ) {}
 
   @Get('/whoami')
-  whoAmI(@Session() session: any) {
-    console.log(session.userId);
-    return this.usersService.findOne(session.userId);
+  whoAmI(@CurrentUser() user: User) {
+    return user;
   }
 
   @Post('/signout')
   signout(@Session() session: any) {
-    session.userID = null;
+    session.userId = null;
+    if (!session.userID) return 'successfully signed out';
   }
 
   @Post('/signup')
@@ -49,7 +51,6 @@ export class UsersController {
   async signin(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.authService.signin(body.email, body.password);
     session.userId = user.id;
-    console.log(session.userId);
     return user;
   }
 

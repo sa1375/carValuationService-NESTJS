@@ -8,6 +8,6 @@ declare module 'express' {
     session?: {
       userId: number;
     };
-    currentUser?: User | null;
+    currentUser?: User;
   }
 }

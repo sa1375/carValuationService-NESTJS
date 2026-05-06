@@ -19,6 +19,7 @@ export class CurrentUserInterceptor implements NestInterceptor {
 
     if (userId) {
       const user = await this.usersService.findOne(+userId);
+      // @ts-expect-error - null or User not undefined or User
       request.currentUser = user;
     }
 
